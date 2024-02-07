@@ -27,7 +27,8 @@ def index(request):
     context_dict['pages'] = page_list
     
     visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
+    
+    
     
     response = render(request, 'rango/index.html', context=context_dict)
     return response
@@ -41,6 +42,8 @@ def index(request):
 
 
 def about(request):
+    context_dict = {'aboutmessage': 'This tutorial has been put together by Josh Yip'}
+    
 # prints out whether the method is a GET or a POST
     print(request.method)
 # prints out the user name, if no one is logged in it prints `AnonymousUser`
@@ -51,8 +54,9 @@ def about(request):
         request.session.delete_test_cookie()
     
     
-    
-    return render(request, 'rango/about.html', {})
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    return render(request, 'rango/about.html', context=context_dict)
 
 
 
@@ -291,7 +295,7 @@ def visitor_cookie_handler(request):
 # Set the last visit cookie
         request.session['last_visit'] = last_visit_cookie
 # Update/set the visits cookie
-        request.session['visits'] = visits
+    request.session['visits'] = visits
 
 
 
